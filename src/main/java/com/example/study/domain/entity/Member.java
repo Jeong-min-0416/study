@@ -4,15 +4,15 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
-@Table(name = "user")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User {
+@Setter
+@Table(name = "member")
+public class Member {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name", nullable = false)
