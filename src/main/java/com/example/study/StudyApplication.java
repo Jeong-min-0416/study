@@ -13,14 +13,19 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class StudyApplication {
-//public class StudyApplication implements CommandLineRunner {
-
-	@Autowired
-	private EntityManager em;
 
 	public static void main(String[] args) {
 		SpringApplication.run(StudyApplication.class, args);
 	}
+
+//public class StudyApplication implements CommandLineRunner {
+
+//	@Autowired
+//	private EntityManager em;
+
+//	public static void main(String[] args) {
+//		SpringApplication.run(StudyApplication.class, args);
+//	}
 
 //	// 수정
 //	@Override
