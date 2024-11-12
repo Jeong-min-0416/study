@@ -12,7 +12,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-public class StudyApplication implements CommandLineRunner {
+public class StudyApplication {
+//public class StudyApplication implements CommandLineRunner {
 
 	@Autowired
 	private EntityManager em;
@@ -21,19 +22,19 @@ public class StudyApplication implements CommandLineRunner {
 		SpringApplication.run(StudyApplication.class, args);
 	}
 
-	// 수정
-	@Override
-	@Transactional
-	public void run(String... args) {
-		try {
-			Member findMember = em.find(Member.class, 2L);
-
-			findMember.setName("HelloJPA");
-
-		} catch (Exception e){
-			em.close(); // 엔터티 닫기
-		}
-	}
+//	// 수정
+//	@Override
+//	@Transactional
+//	public void run(String... args) {
+//		try {
+//			Member findMember = em.find(Member.class, 2L);
+//
+//			findMember.setName("HelloJPA");
+//
+//		} catch (Exception e){
+//			em.close(); // 엔터티 닫기
+//		}
+//	}
 
 //	// 삭제
 //	@Override
