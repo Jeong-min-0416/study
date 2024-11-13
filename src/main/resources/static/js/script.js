@@ -182,13 +182,15 @@ function updateModalSchedule(date) {
     scheduleList.innerHTML = existingSchedules
         .map((schedule, index) =>
             `<div class="schedule-item">
-                 <!-- 수정 버튼 추가 -->
-                 <button class="edit-btn" onclick="editSchedule('${date}', ${index})">수정</button>
+                 <div class="schedule-item-schedule">${schedule}</div>
 
-                 <div>${schedule}</div>
+                <div class="schedule-item-button">
+                     <!-- 수정 버튼 -->
+                     <button class="edit-btn" onclick="editSchedule('${date}', ${index})">수정</button>
 
-                 <!-- 삭제 버튼 -->
-                 <button class="delete-btn" onclick="deleteSchedule('${date}', ${index})">삭제</button>
+                     <!-- 삭제 버튼 -->
+                     <button class="delete-btn" onclick="deleteSchedule('${date}', ${index})">삭제</button>
+                 </div>
              </div>`
         )
         .join("");

@@ -1,15 +1,3 @@
-@media (max-width: 600px) {
-    .calendar-container {
-        width: 100%;
-    }
-    .calendar-header {
-        font-size: 16px;
-    }
-    .calendar-day {
-        min-height: 60px;
-    }
-}
-
 /* 전역 스타일 */
 * {
     margin: 0;
@@ -116,7 +104,7 @@ body {
     color: white;
 }
 
-/* 일정 미리보기 */
+/* 날짜 미리보기 컨테이너 */
 .schedule-preview-container {
     margin-top: 5px;
     display: flex;
@@ -124,6 +112,7 @@ body {
     gap: 3px;
 }
 
+/* 일정 미리보기 스타일 */
 .schedule-preview {
     font-size: 12px;
     color: #fff;
@@ -131,8 +120,44 @@ body {
     padding: 3px 6px;
     border-radius: 5px;
     text-overflow: ellipsis;  /* 넘치는 텍스트 '...' 처리 */
-    white-space: nowrap;
+    white-space: normal;  /* 줄 바꿈 허용 */
+    overflow: hidden;     /* 넘치는 내용 숨기기 */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;  /* 최대 2줄 표시 */
+    -webkit-box-orient: vertical; /* 세로 방향으로 내용 표시 */
+    word-wrap: break-word;  /* 긴 단어를 강제로 줄 바꿈 */
+    max-width: 100%;        /* 일정이 그 영역을 넘지 않도록 제한 */
+}
+
+/* 일정이 12글자 이상일 경우 '...' 추가 */
+.schedule-preview {
     overflow: hidden;
+    white-space: nowrap;   /* 한 줄로 텍스트를 표시 */
+    text-overflow: ellipsis;  /* '...' 표시 */
+}
+
+/* 일정 미리보기 텍스트 두 줄 제한 */
+.schedule-preview-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+/* 일정 미리보기 텍스트 두 줄까지 보이게 하고 나머지 '...' 처리 */
+.schedule-preview {
+    font-size: 12px;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 3px 6px;
+    border-radius: 5px;
+    text-overflow: ellipsis;  /* 넘치는 텍스트 '...' 처리 */
+    white-space: normal;  /* 줄 바꿈 허용 */
+    overflow: hidden;     /* 넘치는 내용 숨기기 */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;  /* 최대 2줄 표시 */
+    -webkit-box-orient: vertical; /* 세로 방향으로 내용 표시 */
+    word-wrap: break-word;  /* 긴 단어를 강제로 줄 바꿈 */
+    max-width: 100%;        /* 일정이 그 영역을 넘지 않도록 제한 */
 }
 
 /* 일정이 많을 경우, 일자의 높이 조정 */
