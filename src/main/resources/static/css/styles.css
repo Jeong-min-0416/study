@@ -245,9 +245,6 @@ button {
     padding: 10px;
     border-radius: 8px;
     border: 1px solid #ccc;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
 .schedule-item button {
@@ -257,6 +254,13 @@ button {
     font-size: 12px;
     transition: all 0.2s ease;
     margin-right: 5px; /* 버튼 간 간격 */
+}
+
+.schedule-item-button {
+    margin-top: 5px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
 }
 
 .edit-btn {
