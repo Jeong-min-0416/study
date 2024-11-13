@@ -1,8 +1,66 @@
-let currentMonth = new Date().getMonth(); // 현재 월 (0~11)
-let currentYear = new Date().getFullYear(); // 현재 년도
-let selectedDate = null; // 선택된 날짜
+// 날짜별 일정 저장 객체
+const scheduleData = {};
 
-// 날짜 변경 시 캘린더 갱신
+// 현재 선택된 월과 연도
+let currentMonth = new Date().getMonth();
+let currentYear = new Date().getFullYear();
+
+// 월/연도 표시 엘리먼트
+const monthYearDisplay = document.getElementById("month-year");
+const calendarDaysContainer = document.getElementById("calendar-days");
+
+// 일정 저장 함수
+function addSchedule(date, scheduleText) {
+    if (!scheduleData[date]) {
+        scheduleData[date] = [];
+    }
+    scheduleData[date].push(scheduleText);
+    renderCalendar();  // 캘린더 새로 그리기
+}
+
+// 일정 삭제 함수
+function deleteSchedule(date, index) {
+    scheduleData[date].splice(index, 1); // 해당 일정 삭제
+    renderCalendar();  // 캘린더 새로 그리기
+}
+
+// 일정 저장 버튼
+function saveSchedule() {
+    const scheduleInput = document.getElementById("schedule-input");
+    const scheduleText = scheduleInput.value.trim();
+    if (scheduleText) {
+        const selectedDate = document.querySelector(".calendar-day.selected").dataset.date;
+        addSchedule(selectedDate, scheduleText);
+        scheduleInput.value = "";  // 일정 입력창 초기화
+        closeModal();  // 모달 닫기
+    }
+}
+
+// 일정 모달 열기
+function openModal(date) {
+    const scheduleInput = document.getElementById("schedule-input");
+    const existingSchedules = scheduleData[date] || [];
+    const scheduleList = document.getElementById("schedule-list");
+
+    // 기존 일정 표시 (세로로 나열되도록 flex 사용)
+    scheduleList.innerHTML = existingSchedules
+        .map((schedule, index) =>
+            `<div class="schedule-item">
+                <div>${schedule}</div>
+                <button class="delete-btn" onclick="deleteSchedule('${date}', ${index})">삭제</button>
+            </div>`
+        )
+        .join("");
+
+    document.getElementById("modal").style.display = "flex";
+}
+
+// 모달 닫기
+function closeModal() {
+    document.getElementById("modal").style.display = "none";
+}
+
+// 이전/다음 달로 이동
 function changeMonth(offset) {
     currentMonth += offset;
     if (currentMonth < 0) {
@@ -15,105 +73,53 @@ function changeMonth(offset) {
     renderCalendar();
 }
 
-// 현재 달력 날짜 표시
+// 달력 렌더링 함수
 function renderCalendar() {
-    const monthYearLabel = document.getElementById('month-year');
-    const calendarDays = document.getElementById('calendar-days');
-    const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
+    // 날짜 표시를 위한 현재 월의 첫날과 마지막 날짜 계산
+    const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
     const lastDateOfMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-    const startingDay = firstDayOfMonth.getDay(); // 첫 번째 날의 요일 (0=일요일, 6=토요일)
+    const lastDateOfPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
 
-    // 달력 헤더에 월과 연도 표시
-    monthYearLabel.textContent = `${currentYear}년 ${currentMonth + 1}월`;
+    let calendarDaysHTML = "";
 
-    // 날짜 그리기
-    calendarDays.innerHTML = ''; // 기존 날짜 지우기
-    for (let i = 0; i < startingDay; i++) {
-        const emptyDiv = document.createElement('div');
-        emptyDiv.classList.add('empty');
-        calendarDays.appendChild(emptyDiv);
+    // 첫 주의 빈 칸
+    for (let i = firstDayOfMonth; i > 0; i--) {
+        calendarDaysHTML += `<div class="calendar-day empty"></div>`;
     }
 
-    // 날짜 추가
-    for (let date = 1; date <= lastDateOfMonth; date++) {
-        const dayDiv = document.createElement('div');
-        dayDiv.classList.add('calendar-day');
-        dayDiv.textContent = date;
+    // 이번 달의 날짜들
+    for (let day = 1; day <= lastDateOfMonth; day++) {
+        const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+        const schedules = scheduleData[dateStr] || [];
+        const hasScheduleClass = schedules.length > 0 ? "has-schedule" : "";
 
-        // 로컬 스토리지에서 일정 확인
-        const savedSchedules = JSON.parse(localStorage.getItem(`schedule-${currentYear}-${currentMonth + 1}-${date}`)) || [];
-        if (savedSchedules.length > 0) {
-            dayDiv.classList.add('schedule'); // 일정이 있으면 강조
-        }
-
-        // 날짜 클릭 시 일정 추가/보기
-        dayDiv.addEventListener('click', () => openModal(date));
-
-        calendarDays.appendChild(dayDiv);
-    }
-}
-
-// 일정 추가/저장
-function saveSchedule() {
-    const scheduleInput = document.getElementById('schedule-input');
-    const scheduleText = scheduleInput.value.trim();
-
-    if (!scheduleText) {
-        alert('일정을 입력하세요.');
-        return;
+        calendarDaysHTML += `
+            <div class="calendar-day ${hasScheduleClass}" data-date="${dateStr}" onclick="openModal('${dateStr}')">
+                <span>${day}</span>
+                <div class="schedule-preview-container">
+                    ${schedules.slice(0, 2).map(schedule =>
+                        `<div class="schedule-preview">${schedule}</div>`
+                    ).join('')}
+                    ${schedules.length > 2 ?
+                        `<div class="schedule-preview">...</div>`
+                        : ''}
+                </div>
+            </div>
+        `;
     }
 
-    const schedules = JSON.parse(localStorage.getItem(`schedule-${currentYear}-${currentMonth + 1}-${selectedDate}`)) || [];
-    schedules.push(scheduleText);
-    localStorage.setItem(`schedule-${currentYear}-${currentMonth + 1}-${selectedDate}`, JSON.stringify(schedules));
+    // 이후 달의 빈 칸
+    const remainingDays = 42 - (calendarDaysHTML.match(/calendar-day/g) || []).length;
+    for (let i = 0; i < remainingDays; i++) {
+        calendarDaysHTML += `<div class="calendar-day empty"></div>`;
+    }
 
-    renderCalendar();
-    closeModal();
+    // 캘린더 그리기
+    calendarDaysContainer.innerHTML = calendarDaysHTML;
+
+    // 월/연도 표시
+    monthYearDisplay.textContent = `${currentYear}년 ${currentMonth + 1}월`;
 }
 
-// 모달 열기
-function openModal(date) {
-    selectedDate = date;
-    const scheduleList = document.getElementById('schedule-list');
-    scheduleList.innerHTML = ''; // 기존 일정 지우기
-
-    const savedSchedules = JSON.parse(localStorage.getItem(`schedule-${currentYear}-${currentMonth + 1}-${date}`)) || [];
-
-    savedSchedules.forEach((schedule, index) => {
-        const scheduleItem = document.createElement('div');
-        scheduleItem.classList.add('schedule-item');
-
-        const scheduleText = document.createElement('p');
-        scheduleText.textContent = schedule;
-        scheduleItem.appendChild(scheduleText);
-
-        // 일정 삭제 버튼
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = '삭제';
-        deleteButton.addEventListener('click', () => deleteSchedule(index));
-        scheduleItem.appendChild(deleteButton);
-
-        scheduleList.appendChild(scheduleItem);
-    });
-
-    const modal = document.getElementById('modal');
-    modal.style.display = 'flex';
-}
-
-// 일정 삭제
-function deleteSchedule(index) {
-    const schedules = JSON.parse(localStorage.getItem(`schedule-${currentYear}-${currentMonth + 1}-${selectedDate}`)) || [];
-    schedules.splice(index, 1);
-    localStorage.setItem(`schedule-${currentYear}-${currentMonth + 1}-${selectedDate}`, JSON.stringify(schedules));
-    renderCalendar();
-    openModal(selectedDate); // 모달 갱신
-}
-
-// 모달 닫기
-function closeModal() {
-    const modal = document.getElementById('modal');
-    modal.style.display = 'none';
-}
-
-// 초기 달력 렌더링
+// 초기 렌더링
 renderCalendar();
