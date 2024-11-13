@@ -3,39 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>동적 캘린더</title>
+    <title>유니크한 캘린더</title>
+    <!-- 올바른 link 태그 수정 -->
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 <div class="calendar-container">
-    <header class="calendar-header">
-        <button class="prev-btn" onclick="changeMonth(-1)">&lt;</button>
+    <div class="calendar-header">
+        <button id="prev-month" onclick="changeMonth(-1)">❮</button>
         <span class="month-year" id="month-year"></span>
-        <button class="next-btn" onclick="changeMonth(1)">&gt;</button>
-    </header>
-
+        <button id="next-month" onclick="changeMonth(1)">❯</button>
+    </div>
     <div class="calendar-body">
         <div class="calendar-weekdays">
-            <span>일</span>
-            <span>월</span>
-            <span>화</span>
-            <span>수</span>
-            <span>목</span>
-            <span>금</span>
-            <span>토</span>
+            <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
         </div>
-        <div class="calendar-days" id="calendar-days"></div>
+        <div class="calendar-days" id="calendar-days">
+            <!-- 날짜가 동적으로 삽입됩니다. -->
+        </div>
     </div>
 </div>
 
-<!-- 일정 추가/수정 모달 -->
-<div id="modal" class="modal">
+<!-- 일정 모달 -->
+<div class="modal" id="modal">
     <div class="modal-content">
-        <h2>일정 추가/수정</h2>
-        <textarea id="schedule-input" placeholder="일정을 입력하세요"></textarea>
-        <div id="schedule-list"></div>
+        <h2>일정을 추가하세요!</h2>
+        <textarea id="schedule-input" placeholder="일정을 입력하세요..."></textarea>
         <button onclick="saveSchedule()">저장</button>
-        <button onclick="closeModal()">취소</button>
+        <div id="schedule-list" class="schedule-list">
+            <!-- 일정 목록 -->
+        </div>
+        <button class="close-modal" onclick="closeModal()">닫기</button>
     </div>
 </div>
 
