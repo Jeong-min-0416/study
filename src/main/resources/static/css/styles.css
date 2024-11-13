@@ -79,7 +79,7 @@ body {
 
 .calendar-day {
     width: 100%;
-    min-height: 80px;  /* 최소 높이 */
+    min-height: 80px;
     text-align: center;
     line-height: 20px;
     font-size: 16px;
@@ -160,6 +160,14 @@ textarea {
     resize: none;
 }
 
+/* 버튼의 부모 요소를 flexbox로 설정하여 가로로 정렬 */
+.button-container {
+    display: flex;
+    gap: 10px;  /* 버튼 사이에 10px 간격 */
+    justify-content: center;  /* 버튼들을 가운데 정렬 */
+}
+
+/* 버튼 스타일 */
 button {
     background-color: #000;
     color: white;
@@ -168,10 +176,7 @@ button {
     border: none;
     cursor: pointer;
     transition: all 0.2s ease;
-}
-
-button:hover {
-    background-color: #333;
+    font-size: 14px;
 }
 
 /* 일정 목록 */
@@ -195,4 +200,10 @@ button:hover {
 
 .delete-btn:hover {
     background-color: darkred;
+}
+
+.schedule-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
 }

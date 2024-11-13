@@ -26,12 +26,12 @@
 <!-- 일정 모달 -->
 <div class="modal" id="modal">
     <div class="modal-content">
-        <h2>일정을 추가하세요!</h2>
+        <div class="schedule-title">일정을 추가하세요!</div>
         <textarea id="schedule-input" placeholder="일정을 입력하세요..."></textarea>
-        <button onclick="saveSchedule()">저장</button>
         <div id="schedule-list" class="schedule-list">
             <!-- 일정 목록 -->
         </div>
+        <button onclick="saveSchedule()">저장</button>
         <button class="close-modal" onclick="closeModal()">닫기</button>
     </div>
 </div>

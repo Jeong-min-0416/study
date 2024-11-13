@@ -28,12 +28,26 @@ function deleteSchedule(date, index) {
 function saveSchedule() {
     const scheduleInput = document.getElementById("schedule-input");
     const scheduleText = scheduleInput.value.trim();
+
+    const selectedDateElement = document.querySelector(".calendar-day.selected");
+    if (!selectedDateElement) {
+        alert("날짜를 선택해주세요.");
+        return;
+    }
+
+    const selectedDate = selectedDateElement.dataset.date;
+
     if (scheduleText) {
-        const selectedDate = document.querySelector(".calendar-day.selected").dataset.date;
-        addSchedule(selectedDate, scheduleText);
+        addSchedule(selectedDate, scheduleText);  // 일정 추가
         scheduleInput.value = "";  // 일정 입력창 초기화
         closeModal();  // 모달 닫기
     }
+}
+
+// 날짜 클릭 시 'selected' 클래스 추가
+function selectDate(dayElement) {
+    document.querySelectorAll('.calendar-day').forEach(day => day.classList.remove('selected'));  // 기존 선택된 날짜 제거
+    dayElement.classList.add('selected');  // 클릭한 날짜에 'selected' 클래스 추가
 }
 
 // 일정 모달 열기
@@ -42,7 +56,7 @@ function openModal(date) {
     const existingSchedules = scheduleData[date] || [];
     const scheduleList = document.getElementById("schedule-list");
 
-    // 기존 일정 표시 (세로로 나열되도록 flex 사용)
+    // 기존 일정 표시
     scheduleList.innerHTML = existingSchedules
         .map((schedule, index) =>
             `<div class="schedule-item">
@@ -78,7 +92,6 @@ function renderCalendar() {
     // 날짜 표시를 위한 현재 월의 첫날과 마지막 날짜 계산
     const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
     const lastDateOfMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-    const lastDateOfPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
 
     let calendarDaysHTML = "";
 
@@ -94,7 +107,7 @@ function renderCalendar() {
         const hasScheduleClass = schedules.length > 0 ? "has-schedule" : "";
 
         calendarDaysHTML += `
-            <div class="calendar-day ${hasScheduleClass}" data-date="${dateStr}" onclick="openModal('${dateStr}')">
+            <div class="calendar-day ${hasScheduleClass}" data-date="${dateStr}" onclick="selectDate(this); openModal('${dateStr}')">
                 <span>${day}</span>
                 <div class="schedule-preview-container">
                     ${schedules.slice(0, 2).map(schedule =>
