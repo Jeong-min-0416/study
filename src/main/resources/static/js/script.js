@@ -24,6 +24,17 @@ function deleteSchedule(date, index) {
     renderCalendar();  // 캘린더 새로 그리기
 }
 
+// 일정 수정 함수
+function editSchedule(date, index) {
+    const newScheduleText = prompt("수정할 일정을 입력하세요:", scheduleData[date][index]);
+
+    if (newScheduleText !== null && newScheduleText.trim() !== "") {
+        // 수정된 일정 저장
+        scheduleData[date][index] = newScheduleText.trim();
+        renderCalendar();  // 캘린더 새로 그리기
+    }
+}
+
 // 일정 저장 버튼
 function saveSchedule() {
     const scheduleInput = document.getElementById("schedule-input");
@@ -60,9 +71,14 @@ function openModal(date) {
     scheduleList.innerHTML = existingSchedules
         .map((schedule, index) =>
             `<div class="schedule-item">
-                <div>${schedule}</div>
-                <button class="delete-btn" onclick="deleteSchedule('${date}', ${index})">삭제</button>
-            </div>`
+                 <!-- 수정 버튼 추가 -->
+                 <button class="edit-btn" onclick="editSchedule('${date}', ${index})">수정</button>
+
+                 <div>${schedule}</div>
+
+                 <!-- 삭제 버튼 -->
+                 <button class="delete-btn" onclick="deleteSchedule('${date}', ${index})">삭제</button>
+             </div>`
         )
         .join("");
 

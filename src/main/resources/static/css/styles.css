@@ -1,3 +1,15 @@
+@media (max-width: 600px) {
+    .calendar-container {
+        width: 100%;
+    }
+    .calendar-header {
+        font-size: 16px;
+    }
+    .calendar-day {
+        min-height: 60px;
+    }
+}
+
 /* 전역 스타일 */
 * {
     margin: 0;
@@ -22,7 +34,7 @@ body {
     background-color: white;
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    width: 380px;
+    width: 450px;
     max-width: 100%;
     overflow: hidden;
     padding: 10px;
@@ -144,11 +156,19 @@ body {
 
 .modal-content {
     background: white;
-    padding: 30px;
+    padding: 25px;
     border-radius: 8px;
     width: 350px;
     max-width: 100%;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.modal-button {
+    display: flex;                /* flexbox로 설정 */
+    justify-content: center;      /* 가로 방향으로 중앙 정렬 */
+    align-items: center;          /* 세로 방향으로 중앙 정렬 */
+    gap: 5px;                     /* 버튼 간 간격을 추가 */
+    margin-top: 5px;
 }
 
 textarea {
@@ -180,11 +200,40 @@ button {
 }
 
 /* 일정 목록 */
-.schedule-item {
+.schedule-list {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.schedule-item {
+    margin-bottom: 7px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.schedule-item button {
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s ease;
+    margin-right: 5px; /* 버튼 간 간격 */
+}
+
+.edit-btn {
+    background-color: #007bff; /* 수정 버튼 스타일 */
+    color: white;
+    border: none;
+}
+
+.edit-btn:hover {
+    background-color: #0056b3; /* 수정 버튼 호버 효과 */
 }
 
 .delete-btn {
