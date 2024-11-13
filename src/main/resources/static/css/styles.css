@@ -140,6 +140,13 @@ body {
     height: auto;  /* 일정이 추가될 때 높이를 자동으로 조정 */
 }
 
+/* 일정이 없을 경우 */
+.no-schedule {
+    font-size: 14px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
 /* 모달 창 */
 .modal {
     position: fixed;

@@ -16,12 +16,7 @@ function addSchedule(date, scheduleText) {
     }
     scheduleData[date].push(scheduleText);
     renderCalendar();  // 캘린더 새로 그리기
-}
-
-// 일정 삭제 함수
-function deleteSchedule(date, index) {
-    scheduleData[date].splice(index, 1); // 해당 일정 삭제
-    renderCalendar();  // 캘린더 새로 그리기
+    updateModalSchedule(date);  // 모달 내 일정 업데이트
 }
 
 // 일정 수정 함수
@@ -31,8 +26,20 @@ function editSchedule(date, index) {
     if (newScheduleText !== null && newScheduleText.trim() !== "") {
         // 수정된 일정 저장
         scheduleData[date][index] = newScheduleText.trim();
-        renderCalendar();  // 캘린더 새로 그리기
+
+        // 변경된 일정만 캘린더에 반영
+        renderCalendar(); // 캘린더 새로 그리기
+        updateModalSchedule(date);  // 모달 내용 업데이트
     }
+}
+
+// 일정 삭제 함수
+function deleteSchedule(date, index) {
+    scheduleData[date].splice(index, 1); // 해당 일정 삭제
+
+    // 삭제 후 캘린더 미리보기 및 모달 갱신
+    renderCalendar();  // 캘린더 새로 그리기
+    updateModalSchedule(date);  // 모달 내용 업데이트
 }
 
 // 일정 저장 버튼
@@ -68,20 +75,9 @@ function openModal(date) {
     const scheduleList = document.getElementById("schedule-list");
 
     // 기존 일정 표시
-    scheduleList.innerHTML = existingSchedules
-        .map((schedule, index) =>
-            `<div class="schedule-item">
-                 <!-- 수정 버튼 추가 -->
-                 <button class="edit-btn" onclick="editSchedule('${date}', ${index})">수정</button>
+    updateModalSchedule(date);  // 일정 목록 업데이트
 
-                 <div>${schedule}</div>
-
-                 <!-- 삭제 버튼 -->
-                 <button class="delete-btn" onclick="deleteSchedule('${date}', ${index})">삭제</button>
-             </div>`
-        )
-        .join("");
-
+    // 모달 열기
     document.getElementById("modal").style.display = "flex";
 }
 
@@ -105,7 +101,6 @@ function changeMonth(offset) {
 
 // 달력 렌더링 함수
 function renderCalendar() {
-    // 날짜 표시를 위한 현재 월의 첫날과 마지막 날짜 계산
     const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
     const lastDateOfMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
@@ -148,6 +143,32 @@ function renderCalendar() {
 
     // 월/연도 표시
     monthYearDisplay.textContent = `${currentYear}년 ${currentMonth + 1}월`;
+}
+
+// 모달 내 일정 갱신 함수
+function updateModalSchedule(date) {
+    const scheduleList = document.getElementById("schedule-list");
+    const existingSchedules = scheduleData[date] || [];
+
+    // 기존 일정 표시
+    scheduleList.innerHTML = existingSchedules
+        .map((schedule, index) =>
+            `<div class="schedule-item">
+                 <!-- 수정 버튼 -->
+                 <button class="edit-btn" onclick="editSchedule('${date}', ${index})">수정</button>
+
+                 <div>${schedule}</div>
+
+                 <!-- 삭제 버튼 -->
+                 <button class="delete-btn" onclick="deleteSchedule('${date}', ${index})">삭제</button>
+             </div>`
+        )
+        .join("");
+
+    // 일정이 없으면 '일정 없음' 메시지 표시
+    if (existingSchedules.length === 0) {
+        scheduleList.innerHTML = "<div class='no-schedule'>일정이 없습니다.</div>";
+    }
 }
 
 // 초기 렌더링
