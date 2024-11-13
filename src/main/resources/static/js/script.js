@@ -1,6 +1,9 @@
 // 날짜별 일정 저장 객체
 const scheduleData = {};
 
+// 마지막으로 저장된 날짜를 추적할 변수
+let lastSelectedDate = null;
+
 // 현재 선택된 월과 연도
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
@@ -15,6 +18,7 @@ function addSchedule(date, scheduleText) {
         scheduleData[date] = [];
     }
     scheduleData[date].push(scheduleText);
+    lastSelectedDate = date;  // 마지막으로 일정이 추가된 날짜를 업데이트
     renderCalendar();  // 캘린더 새로 그리기
     updateModalSchedule(date);  // 모달 내 일정 업데이트
 }
@@ -47,10 +51,32 @@ function saveSchedule() {
     const scheduleInput = document.getElementById("schedule-input");
     const scheduleText = scheduleInput.value.trim();
 
-    const selectedDateElement = document.querySelector(".calendar-day.selected");
+    let selectedDateElement = document.querySelector(".calendar-day.selected");
+
+    // 선택된 날짜가 없으면 마지막으로 저장된 날짜를 선택
+    if (!selectedDateElement && lastSelectedDate) {
+        selectedDateElement = document.querySelector(`[data-date="${lastSelectedDate}"]`);
+
+        if (selectedDateElement) {
+            selectDate(selectedDateElement);  // 마지막 저장된 날짜 선택
+        } else {
+            alert("가장 최근에 저장된 날짜를 찾을 수 없습니다.");
+            return;
+        }
+    }
+
+    // 여전히 선택된 날짜가 없다면, 오늘 날짜를 자동으로 선택
     if (!selectedDateElement) {
-        alert("날짜를 선택해주세요.");
-        return;
+        const today = new Date();
+        const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+        selectedDateElement = document.querySelector(`[data-date="${todayStr}"]`);
+
+        if (selectedDateElement) {
+            selectDate(selectedDateElement);  // 오늘 날짜 자동 선택
+        } else {
+            alert("오늘 날짜를 찾을 수 없습니다.");
+            return;
+        }
     }
 
     const selectedDate = selectedDateElement.dataset.date;
@@ -58,7 +84,9 @@ function saveSchedule() {
     if (scheduleText) {
         addSchedule(selectedDate, scheduleText);  // 일정 추가
         scheduleInput.value = "";  // 일정 입력창 초기화
-        closeModal();  // 모달 닫기
+
+        // 일정이 추가된 후, 모달을 닫지 않고 내용만 새로 갱신
+        updateModalSchedule(selectedDate);  // 모달의 일정 목록을 갱신
     }
 }
 
@@ -154,7 +182,7 @@ function updateModalSchedule(date) {
     scheduleList.innerHTML = existingSchedules
         .map((schedule, index) =>
             `<div class="schedule-item">
-                 <!-- 수정 버튼 -->
+                 <!-- 수정 버튼 추가 -->
                  <button class="edit-btn" onclick="editSchedule('${date}', ${index})">수정</button>
 
                  <div>${schedule}</div>

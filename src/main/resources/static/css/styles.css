@@ -143,6 +143,7 @@ body {
 /* 일정이 없을 경우 */
 .no-schedule {
     font-size: 14px;
+    padding: 10px;
     margin-top: 10px;
     margin-bottom: 15px;
 }
