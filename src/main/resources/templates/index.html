@@ -3,138 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>지하 아이돌 소속사</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <title>동적 캘린더</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+<div class="calendar-container">
+    <header class="calendar-header">
+        <button class="prev-btn" onclick="changeMonth(-1)">&lt;</button>
+        <span class="month-year" id="month-year"></span>
+        <button class="next-btn" onclick="changeMonth(1)">&gt;</button>
+    </header>
 
-<!-- 헤더 -->
-<header>
-    <div class="container">
-        <div class="logo">
-            <a href="#">Z Idol</a> <!-- 브랜드 이름 -->
+    <div class="calendar-body">
+        <div class="calendar-weekdays">
+            <span>일</span>
+            <span>월</span>
+            <span>화</span>
+            <span>수</span>
+            <span>목</span>
+            <span>금</span>
+            <span>토</span>
         </div>
-        <nav>
-            <ul>
-                <li><a href="#home">홈</a></li>
-                <li><a href="#artists">아티스트</a></li>
-                <li><a href="#albums">앨범</a></li>
-                <li><a href="#fan-meeting">팬미팅</a></li>
-                <li><a href="#community">커뮤니티</a></li>
-            </ul>
-        </nav>
+        <div class="calendar-days" id="calendar-days"></div>
     </div>
-</header>
+</div>
 
-<!-- 히어로 섹션 -->
-<section id="home" class="hero">
-    <div class="hero-content">
-        <h1>지하 아이돌의 혁신</h1>
-        <p>새로운 스타들이 여기에서 시작됩니다.</p>
-        <a href="#artists" class="cta-button">아이돌 보기</a>
+<!-- 일정 추가/수정 모달 -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <h2>일정 추가/수정</h2>
+        <textarea id="schedule-input" placeholder="일정을 입력하세요"></textarea>
+        <div id="schedule-list"></div>
+        <button onclick="saveSchedule()">저장</button>
+        <button onclick="closeModal()">취소</button>
     </div>
-</section>
+</div>
 
-<!-- 아티스트 섹션 -->
-<!-- <img src="https://via.placeholder.com/300x400" alt="아이돌 1"> -->
-<section id="artists" class="artists">
-    <div class="container">
-        <h2>활동 중인 아이돌</h2>
-        <div class="artist-cards">
-            <!-- 아이돌 1 -->
-            <a href="https://x.com/H7KD_ofcl" class="artist-card">
-                <div class="artist-card-content">
-                    <img src="/images/1.jpg" alt="아이돌 1">
-                    <div class="artist-info">
-                        <h3 class="artist-name">하츠칸덴</h3>
-                        <p class="artist-group">ネメシス</p>
-                    </div>
-                </div>
-            </a>
-            <!-- 아이돌 2 -->
-            <a href="https://x.com/KAGERERU_OFCL" class="artist-card">
-                <div class="artist-card-content">
-                    <img src="/images/2.jpg" alt="아이돌 2">
-                    <div class="artist-info">
-                        <h3 class="artist-name">카게레루</h3>
-                        <p class="artist-group">影に紛れる:XX隠れの里</p>
-                    </div>
-                </div>
-            </a>
-            <!-- 아이돌 3 -->
-            <a href="https://x.com/ONIBI_OFCL" class="artist-card">
-                <div class="artist-card-content">
-                    <img src="/images/3.jpg" alt="아이돌 3">
-                    <div class="artist-info">
-                        <h3 class="artist-name">오니비데 슈고</h3>
-                        <p class="artist-group">鬼火で集合</p>
-                    </div>
-                </div>
-            </a>
-            <!-- 아이돌 4 -->
-            <a href="https://x.com/UgoPoupee" class="artist-card">
-                <div class="artist-card-content">
-                    <img src="/images/4.jpg" alt="아이돌 4">
-                    <div class="artist-info">
-                        <h3 class="artist-name">우고프페</h3>
-                        <p class="artist-group">動け！！Poupée Land</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </div>
-</section>
-
-<!-- 앨범 섹션 -->
-<section id="albums" class="albums">
-    <div class="container">
-        <h2>최신 앨범</h2>
-        <div class="album-cards">
-            <div class="album-card">
-                <img src="https://via.placeholder.com/300x300" alt="앨범 1">
-                <h3>앨범 1</h3>
-            </div>
-            <div class="album-card">
-                <img src="https://via.placeholder.com/300x300" alt="앨범 2">
-                <h3>앨범 2</h3>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- 팬미팅 섹션 -->
-<section id="fan-meeting" class="fan-meeting">
-    <div class="container">
-        <h2>팬미팅 일정</h2>
-        <ul>
-            <li>아이돌 1 팬미팅 - 2024년 12월 15일</li>
-            <li>아이돌 2 팬미팅 - 2024년 12월 20일</li>
-            <li>아이돌 3 팬미팅 - 2024년 12월 25일</li>
-        </ul>
-    </div>
-</section>
-
-<!-- 커뮤니티 섹션 -->
-<section id="community" class="community">
-    <div class="container">
-        <h2>팬 커뮤니티</h2>
-        <p>팬들이 만든 아트와 팬 아트 게시판</p>
-        <a href="#" class="cta-button">팬 아트 보기</a>
-    </div>
-</section>
-
-<!-- 푸터 -->
-<footer>
-    <div class="container">
-        <p>&copy; 2024 Z Idol. All Rights Reserved.</p>
-        <div class="social-links">
-            <a href="#">Instagram</a>
-            <a href="#">Twitter</a>
-            <a href="#">Facebook</a>
-        </div>
-    </div>
-</footer>
-
+<script src="js/script.js"></script>
 </body>
 </html>
