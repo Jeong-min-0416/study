@@ -1,0 +1,149 @@
+/* 전역 스타일 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f3f1e7; /* 연한 크림색 배경 */
+    color: #333;
+    padding-top: 80px; /* 상단바 때문에 여백 추가 */
+    line-height: 1.6;
+}
+
+/* 상단바 (header) */
+header {
+    width: 100%;
+    background-color: #3a3a3a; /* 어두운 회색 */
+    color: white;
+    padding: 15px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.navbar .logo a {
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.navbar .logo a:hover {
+    color: #f0a500; /* 호버 시 색상 변경 */
+}
+
+.navbar-links a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 18px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.navbar-links a:hover {
+    color: #f0a500;
+}
+
+/* 메인 콘텐츠 스타일 */
+main {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px 20px 20px;
+    text-align: center;
+}
+
+.intro {
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.intro h1 {
+    font-size: 36px;
+    font-weight: 600;
+    color: #3a3a3a;
+    margin-bottom: 20px;
+}
+
+.intro p {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.intro a {
+    background-color: #3a3a3a;
+    color: white;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+}
+
+.intro a:hover {
+    background-color: #f0a500;
+}
+
+/* Footer 스타일 */
+footer {
+    background-color: #3a3a3a;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+footer p {
+    font-size: 14px;
+}
+
+/* 미디어 쿼리: 반응형 디자인 */
+@media (max-width: 768px) {
+    .navbar .logo a {
+        font-size: 24px;
+    }
+
+    .navbar-links a {
+        font-size: 16px;
+        margin-left: 15px;
+    }
+
+    .intro {
+        padding: 20px;
+    }
+
+    .intro h1 {
+        font-size: 28px;
+    }
+
+    .intro p {
+        font-size: 16px;
+    }
+
+    .intro a {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+}

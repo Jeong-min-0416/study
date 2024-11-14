@@ -5,6 +5,57 @@
     box-sizing: border-box;
 }
 
+/* 상단바 (header) - 달력 페이지 */
+header {
+    width: 100%;
+    background-color: #3a3a3a; /* 어두운 회색 */
+    color: white;
+    padding: 15px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.navbar .logo a {
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.navbar .logo a:hover {
+    color: #f0a500; /* 호버 시 색상 변경 */
+}
+
+.navbar-links a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 18px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.navbar-links a:hover {
+    color: #f0a500;
+}
+
+/* 달력 페이지 상단바와 달력 본문 사이 여백 추가 */
+.calendar-container {
+    margin-top: 80px; /* 상단바로 인해 달력 아래로 여백 추가 */
+}
+
 body {
     font-family: 'Inter', sans-serif;
     background-color: #f3f1e7; /* 배경은 연한 종이 느낌의 크림색 */

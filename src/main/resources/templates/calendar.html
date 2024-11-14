@@ -4,9 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>일정 관리 캘린더</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="/css/calendar.css">
 </head>
 <body>
+<!-- 공통 상단바 -->
+<header>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="/">홈페이지</a>
+        </div>
+        <div class="navbar-links">
+            <a href="/">메인 페이지</a>
+        </div>
+    </nav>
+</header>
+
 <div class="calendar-container">
     <div class="calendar-header">
         <button id="prev-month" onclick="changeMonth(-1)">❮</button>
@@ -28,14 +40,12 @@
     <div class="modal-content">
         <div class="schedule-title">일정을 추가하거나 수정하세요</div>
 
-        <!-- 수정할 일정을 입력할 텍스트 영역 -->
         <textarea id="schedule-input" placeholder="일정을 입력하세요.."></textarea>
 
         <div id="schedule-list" class="schedule-list">
             <!-- 일정 목록 -->
         </div>
 
-        <!-- 버튼 컨테이너 -->
         <div class="modal-button">
             <button onclick="saveSchedule()">저장</button>
             <button class="close-modal" onclick="closeModal()">닫기</button>
@@ -43,6 +53,6 @@
     </div>
 </div>
 
-<script src="js/script.js"></script>
+<script src="/js/calendar.js"></script>
 </body>
 </html>
